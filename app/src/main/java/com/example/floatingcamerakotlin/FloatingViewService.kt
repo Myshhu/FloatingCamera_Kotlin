@@ -110,9 +110,22 @@ class FloatingViewService : Service() {
 
     private fun setCameraParameters(camera: Camera?) {
         val cameraParameters = camera?.parameters
+        val sizes = ArrayList<Int>()
+        for (i in 0 until (cameraParameters?.supportedPictureSizes?.size ?: 0)) {
+            sizes.add(
+                (cameraParameters?.supportedPictureSizes?.get(i)?.width ?: 0)
+                        * (cameraParameters?.supportedPictureSizes?.get(i)?.height ?: 0)
+            )
+        }
+        var max = 0
+        for (i in sizes.indices) {
+            if (sizes[i] > sizes[i]) {
+                max = i
+            }
+        }
         cameraParameters?.setPictureSize(
-            cameraParameters.supportedPictureSizes[0].width,
-            cameraParameters.supportedPictureSizes[0].height
+            cameraParameters.supportedPictureSizes[max].width,
+            cameraParameters.supportedPictureSizes[max].height
         )
         camera?.parameters = cameraParameters
     }
@@ -188,32 +201,12 @@ class FloatingViewService : Service() {
 
 
     private fun setListeners() {
+        setLayoutListener()
         setBtnMakePhotoListener()
         setBtnCloseListener()
-        setLayoutListener()
-    }
-
-    private fun setBtnMakePhotoListener() {
-        val btnMakePhoto: Button = floatingView.findViewById(R.id.btnMakePhoto)
-        btnMakePhoto.setOnClickListener { v ->
-            if (flagCanTakePicture) {
-                flagCanTakePicture = false
-                mCamera?.takePicture(null, null, mPicture)
-            }
-        }
-    }
-
-    private fun setBtnCloseListener() {
-        val btnClose: Button = floatingView.findViewById(R.id.btnClose)
-        btnClose.setOnClickListener{
-            releaseCamera()
-            stopSelf()
-        }
-    }
-
-    private fun releaseCamera() {
-        mCamera?.stopPreview()
-        mCamera?.release()
+        setBtnSizeUpListener()
+        setBtnSizeDownListener()
+        setBtnSwitchCameraListener()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -221,6 +214,7 @@ class FloatingViewService : Service() {
         val linearLayout: LinearLayout = floatingView.findViewById(R.id.linearLayout)
 
         linearLayout.setOnTouchListener(object : View.OnTouchListener {
+
             var initialX: Int = 0
             var initialY: Int = 0
             var initialTouchX: Float = 0.toFloat()
@@ -240,20 +234,13 @@ class FloatingViewService : Service() {
                         return true
                     }
 
-                    MotionEvent.ACTION_UP -> {
-                        val Xdiff = (event.rawX - initialTouchX).toInt()
-                        val Ydiff = (event.rawY - initialTouchY).toInt()
-
-                        //The check for Xdiff <10 && YDiff< 10 because sometime elements moves a little while clicking.
-                        if (Xdiff < 10 && Ydiff < 10) {
-                            //stopSelf();
-                        }
-                        return true
-                    }
                     MotionEvent.ACTION_MOVE -> {
+                        val xDiff: Int = (event.rawX - initialTouchX).toInt()
+                        val yDiff: Int = (event.rawY - initialTouchY).toInt()
+
                         //Calculate the X and Y coordinates of the view.
-                        layoutParams?.x = initialX + (event.rawX - initialTouchX).toInt()
-                        layoutParams?.y = initialY + (event.rawY - initialTouchY).toInt()
+                        layoutParams?.x = initialX + xDiff
+                        layoutParams?.y = initialY + yDiff
                         //Update the layout with new X & Y coordinate
                         mWindowManager?.updateViewLayout(floatingView, layoutParams)
                         return true
@@ -262,6 +249,64 @@ class FloatingViewService : Service() {
                 return false
             }
         })
+    }
+
+    private fun setBtnMakePhotoListener() {
+        val btnMakePhoto: Button = floatingView.findViewById(R.id.btnMakePhoto)
+        btnMakePhoto.setOnClickListener {
+            if (flagCanTakePicture) {
+                flagCanTakePicture = false
+                mCamera?.takePicture(null, null, mPicture)
+            }
+        }
+    }
+
+    private fun setBtnCloseListener() {
+        val btnClose: Button = floatingView.findViewById(R.id.btnClose)
+        btnClose.setOnClickListener {
+            releaseCamera()
+            stopSelf()
+        }
+    }
+
+    private fun releaseCamera() {
+        mCamera?.stopPreview()
+        mCamera?.release()
+    }
+
+    private fun setBtnSwitchCameraListener() {
+        val btnSwitchCamera: Button = floatingView.findViewById(R.id.btnSwitchCamera)
+        btnSwitchCamera.setOnClickListener {
+            switchCamera()
+        }
+    }
+
+    private fun switchCamera() {
+        setBackCamera = !setBackCamera
+        releaseCamera()
+        prepareCameraView(setBackCamera)
+    }
+
+    private fun setBtnSizeUpListener() {
+        val btnSizeUp: Button = floatingView.findViewById(R.id.btnSizeUp)
+        btnSizeUp.setOnClickListener {
+            resizeLayout(9, 16)
+        }
+    }
+
+    private fun setBtnSizeDownListener() {
+        val btnSizeDown: Button = floatingView.findViewById(R.id.btnSizeDown)
+        btnSizeDown.setOnClickListener {
+            resizeLayout(-9, -16)
+        }
+    }
+
+    private fun resizeLayout(width: Int, height: Int) {
+        val preview: FrameLayout = floatingView.findViewById(R.id.camera_preview)
+        val layoutParams = preview.layoutParams
+        layoutParams.height += 3 * height
+        layoutParams.width += 3 * width
+        preview.layoutParams = layoutParams
     }
 
     override fun onDestroy() {
