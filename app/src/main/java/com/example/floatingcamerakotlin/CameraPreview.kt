@@ -63,6 +63,5 @@ class CameraPreview
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        TODO("not implemented") //File | Settings | File Templates.
     }
 }
