@@ -110,23 +110,13 @@ class FloatingViewService : Service() {
 
     private fun setCameraParameters(camera: Camera?) {
         val cameraParameters = camera?.parameters
-        val sizes = ArrayList<Int>()
-        for (i in 0 until (cameraParameters?.supportedPictureSizes?.size ?: 0)) {
-            sizes.add(
-                (cameraParameters?.supportedPictureSizes?.get(i)?.width ?: 0)
-                        * (cameraParameters?.supportedPictureSizes?.get(i)?.height ?: 0)
+        val max: Camera.Size? = cameraParameters?.supportedPictureSizes?.maxBy { it.width * it.height }
+        if (max != null) {
+            cameraParameters.setPictureSize(
+                max.width,
+                max.height
             )
         }
-        var max = 0
-        for (i in sizes.indices) {
-            if (sizes[i] > sizes[i]) {
-                max = i
-            }
-        }
-        cameraParameters?.setPictureSize(
-            cameraParameters.supportedPictureSizes[max].width,
-            cameraParameters.supportedPictureSizes[max].height
-        )
         camera?.parameters = cameraParameters
     }
 
