@@ -198,6 +198,7 @@ class FloatingViewService : Service() {
         setBtnSizeUpListener()
         setBtnSizeDownListener()
         setBtnSwitchCameraListener()
+        setButtonResizeOnTouchListener()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -290,6 +291,46 @@ class FloatingViewService : Service() {
         btnSizeDown.setOnClickListener {
             resizeLayout(-9, -16)
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setButtonResizeOnTouchListener() {
+        val imgBtnResize: ImageButton = floatingView.findViewById(R.id.imgBtnResize)
+
+        imgBtnResize.setOnTouchListener(object : View.OnTouchListener {
+            var initialTouchX: Float = 0.0f
+            var initialTouchY: Float = 0.0f
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        initialTouchX = event.rawX
+                        initialTouchY = event.rawY
+                        return true
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        val xDiff: Int = (event.rawX - initialTouchX).toInt()
+                        val yDiff: Int = (event.rawY - initialTouchY).toInt()
+                        if (Math.abs(xDiff) > 9 || Math.abs(yDiff) > 9) {
+                            /*layoutParams?.width = floatingView.width + xDiff
+                            layoutParams?.height = floatingView.height + yDiff
+                            initialTouchX = event.rawX
+                            initialTouchY = event.rawY
+                            mWindowManager?.updateViewLayout(floatingView, layoutParams)*/
+                            val preview: FrameLayout = floatingView.findViewById(R.id.camera_preview)
+                            val layoutParams2 = preview.layoutParams
+                            layoutParams2.height += xDiff
+                            layoutParams2.width += yDiff
+                            preview.layoutParams = layoutParams2
+                            initialTouchX = event.rawX
+                            initialTouchY = event.rawY
+                            //mWindowManager?.updateViewLayout(floatingView, layoutParams)
+                        }
+                    }
+                }
+                return false
+            }
+        })
     }
 
     private fun resizeLayout(width: Int, height: Int) {
