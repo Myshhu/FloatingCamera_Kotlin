@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import java.io.File
 import java.io.FileOutputStream
@@ -252,7 +253,7 @@ class FloatingViewService : Service() {
     }
 
     private fun setBtnCloseListener() {
-        val btnClose: Button = floatingView.findViewById(R.id.btnClose)
+        val btnClose: ImageButton = floatingView.findViewById(R.id.btnClose)
         btnClose.setOnClickListener {
             releaseCamera()
             stopSelf()
@@ -265,7 +266,7 @@ class FloatingViewService : Service() {
     }
 
     private fun setBtnSwitchCameraListener() {
-        val btnSwitchCamera: Button = floatingView.findViewById(R.id.btnSwitchCamera)
+        val btnSwitchCamera: ImageButton = floatingView.findViewById(R.id.btnSwitchCamera)
         btnSwitchCamera.setOnClickListener {
             switchCamera()
         }

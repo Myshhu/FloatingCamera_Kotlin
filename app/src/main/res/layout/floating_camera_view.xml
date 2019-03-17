@@ -13,37 +13,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="Close"
-            android:textSize="12sp" />
+        <ImageButton
+                android:id="@+id/btnClose"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/buttonbackground"
+                android:text="Close"
+                android:textSize="12sp"
+                tools:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+
+        <ImageButton
+                android:id="@+id/btnSwitchCamera"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/buttonbackground"
+                android:text="Switch"
+                android:textSize="12sp"
+                tools:src="@android:drawable/ic_menu_rotate"
+                android:src="@android:drawable/ic_menu_rotate"/>
 
         <Button
-            android:id="@+id/btnSwitchCamera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="Switch"
-            android:textSize="12sp" />
+                android:id="@+id/btnSizeUp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/buttonbackground"
+                android:text="+"
+                android:textSize="30sp"
+                android:textColor="#fff"/>
 
         <Button
-            android:id="@+id/btnSizeUp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="+"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/btnSizeDown"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="-"
-            android:textSize="12sp" />
+                android:id="@+id/btnSizeDown"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/buttonbackground"
+                android:text="-"
+                android:textSize="40sp"
+                android:textColor="#fff"/>
 
     </LinearLayout>
 
@@ -58,7 +68,9 @@
         android:id="@+id/btnMakePhoto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Photo" />
+        android:background="@drawable/buttonbackground"
+        android:text="Photo"
+            android:textColor="#fff"/>
 
 
 </LinearLayout>
