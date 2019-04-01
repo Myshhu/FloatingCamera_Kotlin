@@ -22,6 +22,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.sign
 
 class FloatingViewService : Service() {
 
@@ -311,7 +312,7 @@ class FloatingViewService : Service() {
                     MotionEvent.ACTION_MOVE -> {
                         val xDiff: Int = (event.rawX - initialTouchX).toInt()
                         val yDiff: Int = (event.rawY - initialTouchY).toInt()
-                        if (Math.abs(xDiff) > 9 || Math.abs(yDiff) > 9) {
+                        if (Math.abs(xDiff) > 27 && Math.abs(yDiff) > 48) {
                             /*layoutParams?.width = floatingView.width + xDiff
                             layoutParams?.height = floatingView.height + yDiff
                             initialTouchX = event.rawX
@@ -319,8 +320,8 @@ class FloatingViewService : Service() {
                             mWindowManager?.updateViewLayout(floatingView, layoutParams)*/
                             val preview: FrameLayout = floatingView.findViewById(R.id.camera_preview)
                             val layoutParams2 = preview.layoutParams
-                            layoutParams2.height += xDiff
-                            layoutParams2.width += yDiff
+                            layoutParams2.height += 48 * yDiff.sign
+                            layoutParams2.width += 27 * xDiff.sign
                             preview.layoutParams = layoutParams2
                             initialTouchX = event.rawX
                             initialTouchY = event.rawY

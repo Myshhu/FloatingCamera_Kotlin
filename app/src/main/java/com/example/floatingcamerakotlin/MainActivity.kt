@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private fun showOverlayPermissionDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Give permissions")
-        builder.setMessage("Application don't have permissions to draw overlays, which is needed for floatingcamera, from where " + "you can take photos. Click ok and in next step give this application needed permissions.")
+        builder.setMessage("Application don't have permissions to draw overlays that is needed for Floating Camera, from where " + "you can take photos. Click ok and in next step give this application needed permissions.")
 
         builder.setPositiveButton("Ok") { dialog, which ->
             requestOverlayPermission()

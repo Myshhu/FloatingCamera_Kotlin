@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:onClick="btnLaunchCameraClick"
-            android:text="Launch floating camera" />
+            android:text="Start floating camera" />
 
     <Button
             android:id="@+id/btnPermissionsInfo"
