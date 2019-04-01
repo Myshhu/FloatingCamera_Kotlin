@@ -1,4 +1,4 @@
-package com.example.floatingcamerakotlin
+package com.myshhu.floatingcamerakotlin
 
 import android.Manifest
 import android.content.Intent

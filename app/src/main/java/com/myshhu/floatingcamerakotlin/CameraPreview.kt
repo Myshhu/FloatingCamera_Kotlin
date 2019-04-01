@@ -1,4 +1,4 @@
-package com.example.floatingcamerakotlin
+package com.myshhu.floatingcamerakotlin
 
 import android.content.ContentValues.TAG
 import android.content.Context

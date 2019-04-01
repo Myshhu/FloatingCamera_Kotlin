@@ -1,4 +1,4 @@
-package com.example.floatingcamerakotlin
+package com.myshhu.floatingcamerakotlin
 
 import android.annotation.SuppressLint
 import android.app.Service
