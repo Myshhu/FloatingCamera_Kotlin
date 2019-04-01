@@ -1,4 +1,4 @@
-package com.example.floatingcamerakotlin
+package com.myshhu.floatingcamerakotlin
 
 import android.Manifest
 import android.content.Intent
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private fun showOverlayPermissionDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Give permissions")
-        builder.setMessage("Application don't have permissions to draw overlays, which is needed for floating camera, from where " + "you can take photos. Click ok and in next step give this application needed permissions.")
+        builder.setMessage("Application don't have permissions to draw overlays that is needed for Floating Camera, from where " + "you can take photos. Click ok and in next step give this application needed permissions.")
 
         builder.setPositiveButton("Ok") { dialog, which ->
             requestOverlayPermission()
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             "This application needs following permissions:\n" +
                     "- Camera permission for taking photos\n" +
                     "- Storage permission for saving photos\n" +
-                    "- Overlay permission for floating camera view\n" +
+                    "- Overlay permission for floatingcamera view\n" +
                     "Please give this app all needed permissions for it to work properly."
         )
         builder.setPositiveButton("Ok") { _, _ ->  }
